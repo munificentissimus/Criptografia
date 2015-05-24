@@ -1,23 +1,33 @@
 package br.com.munificentissimus.criptografia;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
-
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
 public class CriptografiaBase64 {
 
-	public static void main(String[] args) throws NoSuchAlgorithmException {
+	public static void main(String[] args) throws UnsupportedEncodingException {
 		String entrada = "Teste";
-		String resultado = getMD5(entrada);
+		String resultado = "";
+
+		System.out.println("De String: " + entrada);
+		resultado = getToBase64(entrada);
+		System.out.println("Para base 64: " + resultado);
+
+		entrada = resultado;
 		
-		
-		System.out.println("MD5: " + resultado);
+		System.out.println("\nDe base 64: " + entrada);
+		resultado = getFromBase64(entrada);
+		System.out.println("Para String: " + resultado);
+
 	}
-	
-	private static String getMD5(String entrada) throws NoSuchAlgorithmException {
-		MessageDigest m = MessageDigest.getInstance("MD5");
-		m.update(entrada.getBytes(), 0, entrada.length());
-		return new BigInteger(1, m.digest()).toString(16);
+
+	private static String getToBase64(String entrada)
+			throws UnsupportedEncodingException {
+		return Base64.getEncoder().encodeToString(entrada.getBytes("utf-8"));
+	}
+
+	private static String getFromBase64(String entrada)
+			throws UnsupportedEncodingException {
+		return new String(Base64.getDecoder().decode(entrada), "utf-8");
 	}
 }
